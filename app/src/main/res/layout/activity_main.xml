@@ -11,11 +11,12 @@
         android:layout_height="wrap_content"
         android:text="@string/button_label"
         android:id="@+id/btnNewHand"
+        android:typeface="normal"
+        android:onClick="createNewHand"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="132dp"
-        android:typeface="normal"
-        android:onClick="createNewHand"/>
+        android:layout_marginBottom="137dp" />
 
     <TextView
         android:layout_width="wrap_content"

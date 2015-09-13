@@ -24,4 +24,12 @@ public class Player {
     public void setHand(Hand hand) {
         this.hand = hand;
     }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 }

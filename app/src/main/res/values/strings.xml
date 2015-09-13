@@ -6,4 +6,21 @@
     <string name="button_label">New Hand</string>
     <string name="initial_text">Click button to load new hand</string>
     <string name="num_players_display" formatted="false">%1d/%2d No Limit Hold\'em Tournament, %3d Players</string>
+    <string name="hero_display" formatted="false">Hero is %s with %s</string>
+
+    <string name="BB">BB</string>
+    <string name="SB">SB</string>
+    <string name="BTN">BTN</string>
+    <string name="CO">CO</string>
+    <string name="UTG">UTG</string>
+    <string name="UTG1">UTG+1</string>
+    <string name="UTG2">UTG+2</string>
+    <string name="MP">MP</string>
+    <string name="MP1">MP1</string>
+    <string name="MP2">MP2</string>
+    <string name="MP3">MP3</string>
+    <string name="HERO">Hero</string>
+
+    <string name="bb">bb</string>
+
 </resources>
