@@ -1,5 +1,6 @@
 package com.poker.dscott.pfatrainer.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -8,11 +9,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.poker.dscott.pfatrainer.R;
+import com.poker.dscott.pfatrainer.entity.Table;
 import com.poker.dscott.pfatrainer.service.TableService;
 import com.poker.dscott.pfatrainer.service.TableServiceImpl;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static Context context;
+    private Table table;
     private TableService tableService;
 
     public TableService getTableService() {
@@ -20,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
             tableService = new TableServiceImpl();
         }
         return tableService;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
     @Override
@@ -52,10 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void createNewHand(View view) {
 
-
+        table = getTableService().initializeTable();
         TextView textView = (TextView) findViewById(R.id.textView);
-        String text = "stuff";
-        textView.setText(text);
-        text = textView.getText().toString();
+        textView.setText(table.getTableStatus());
     }
 }

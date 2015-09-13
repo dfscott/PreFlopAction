@@ -22,7 +22,7 @@ public class TableServiceImpl implements TableService {
     @Override
     public Table initializeTable() {
         Random random = new Random();
-        int numberOfPlayers = random.nextInt(9) + 1;
+        int numberOfPlayers = random.nextInt(8) + 2;
         return initializeTable(numberOfPlayers);
     }
 
@@ -30,6 +30,8 @@ public class TableServiceImpl implements TableService {
     public Table initializeTable(int numberOfPlayers) {
 
         Table table = new Table();
+
+        table.setNumberOfPlayers(numberOfPlayers);
         BlindService blindService = getBlindService();
         int bigBlind = blindService.randomizeBigBlind();
 

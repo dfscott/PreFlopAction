@@ -1,5 +1,8 @@
 package com.poker.dscott.pfatrainer.entity;
 
+import com.poker.dscott.pfatrainer.App;
+import com.poker.dscott.pfatrainer.R;
+
 import java.util.List;
 
 /**
@@ -42,5 +45,13 @@ public class Table {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public String getTableStatus() {
+
+        String tableStatusString = App.getContext().getString(R.string.num_players_display,
+                getBB(), getSB(), getNumberOfPlayers());
+//        String tableStatusString = "players = " + getNumberOfPlayers();
+        return tableStatusString;
     }
 }
