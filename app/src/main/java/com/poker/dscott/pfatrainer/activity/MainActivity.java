@@ -8,9 +8,19 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.poker.dscott.pfatrainer.R;
+import com.poker.dscott.pfatrainer.service.TableService;
+import com.poker.dscott.pfatrainer.service.TableServiceImpl;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TableService tableService;
+
+    public TableService getTableService() {
+        if (tableService == null) {
+            tableService = new TableServiceImpl();
+        }
+        return tableService;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createNewHand(View view) {
+
 
         TextView textView = (TextView) findViewById(R.id.textView);
         String text = "stuff";
