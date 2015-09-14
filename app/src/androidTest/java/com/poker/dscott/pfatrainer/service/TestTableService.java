@@ -2,6 +2,7 @@ package com.poker.dscott.pfatrainer.service;
 
 import android.util.Log;
 
+import com.poker.dscott.pfatrainer.entity.FullTable;
 import com.poker.dscott.pfatrainer.entity.Table;
 
 import junit.framework.Assert;
@@ -15,8 +16,10 @@ public class TestTableService extends TestCase {
     public void testInitializeTable() {
 
         TableService tableService = new TableServiceImpl();
-        Table table = tableService.initializeTable(7);
+        Table table = new FullTable();
+        tableService.initializeTable(table, 7);
         Assert.assertTrue(table.getNumberOfPlayers() == 7);
+        tableService.generateAction(table);
         String tableStatus = table.getTableStatus();
         Assert.assertTrue(tableStatus.length() > 0);
         Log.d("MainActivity","table status is : " + tableStatus);

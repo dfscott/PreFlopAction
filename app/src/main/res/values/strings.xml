@@ -1,6 +1,16 @@
 <resources>
-    <string name="app_name">PFATrainer</string>
+    <string name="app_name">Pre-flop Action Trainer</string>
+    <string name="dialog_title">Action Result</string>
+    <string name="fold_clicked_message">You clicked Fold!</string>
 
+    <string name="OK">OK</string>
+
+    <string name="folds" formatted="false">%s folds</string>
+    <string name="calls" formatted="false">%s calls %d</string>
+    <string name="raises" formatted="false">%s raises to %d</string>
+    <string name="allin">and is all-in</string>
+    <string name="multi_fold" formatted="false">%d folds</string>
+    
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="button_label">New Hand</string>
@@ -20,7 +30,6 @@
     <string name="MP2">MP2</string>
     <string name="MP3">MP3</string>
     <string name="HERO">Hero</string>
-
     <string name="bb">bb</string>
 
 </resources>

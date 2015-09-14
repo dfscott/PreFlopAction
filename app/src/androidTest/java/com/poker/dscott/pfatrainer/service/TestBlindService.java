@@ -18,7 +18,5 @@ public class TestBlindService extends TestCase {
 
         int bigBlind = blindService.randomizeBigBlind();
         Assert.assertTrue(bigBlind > 0);
-        System.out.println("big blind - " + bigBlind);
-
     }
 }

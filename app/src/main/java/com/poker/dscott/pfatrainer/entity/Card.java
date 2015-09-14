@@ -127,4 +127,22 @@ public class Card implements Comparable {
                 .append(getCardSuit().getSuitAbbrev()).toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        if (cardRank != card.cardRank) return false;
+        return cardSuit == card.cardSuit;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = cardRank != null ? cardRank.hashCode() : 0;
+        result = 31 * result + (cardSuit != null ? cardSuit.hashCode() : 0);
+        return result;
+    }
 }

@@ -6,14 +6,17 @@ import com.poker.dscott.pfatrainer.R;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import static com.poker.dscott.pfatrainer.entity.Player.Action.CALL;
+import static com.poker.dscott.pfatrainer.entity.Player.Action.FOLD;
+import static com.poker.dscott.pfatrainer.entity.Player.Action.RAISE;
+
 /**
  * Created by dscott on 9/13/2015.
  */
-public class Table {
+public abstract class Table {
 
     public static String newLine = System.getProperty("line.separator");
 
-    public final static int startingChips = 1500;
     public final static int minimumPlayerChips = 100;
 
     private int numberOfPlayers;
@@ -22,6 +25,10 @@ public class Table {
     private Hand heroHand;
     private int heroPosition;
     private List<Player> players;
+
+    public abstract int getStartingStack();
+
+    public abstract int getTotalChips();
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
@@ -135,17 +142,18 @@ public class Table {
         stringBuilder.append(App.getContext().getString(R.string.num_players_display, getSB(), getBB(), getNumberOfPlayers()))
                     .append(newLine)
                     .append(newLine);
-        for (int x = 1;x <= numberOfPlayers; x++) {
-            if (x == heroPosition) {
+        for (Player player : getPlayers()) {
+            int playerPosition = player.getPosition();
+            if (playerPosition  == heroPosition) {
                 stringBuilder.append(App.getContext().getString(R.string.HERO))
                                 .append(" (");
             }
-            stringBuilder.append(getTextPosition(x));
-            if (x == heroPosition) {
+            stringBuilder.append(getTextPosition(playerPosition));
+            if (playerPosition == heroPosition) {
                 stringBuilder.append(")");
             }
             stringBuilder.append(": ");
-            int chipCount = getPlayers().get(x-1).getChipCount();
+            int chipCount = player.getChipCount();
             stringBuilder.append(stackFormat.format(chipCount));
             float numOfBBs = (float) chipCount / getBB();
             stringBuilder.append(" (")
@@ -158,7 +166,59 @@ public class Table {
         stringBuilder.append(newLine)
                 .append(App.getContext().getString(R.string.hero_display,
                         getTextPosition(heroPosition),
-                        heroHand.getHandDescription()));
+                        heroHand.getHandDescription()))
+                .append(newLine);
+        stringBuilder.append(getActionString());
         return stringBuilder.toString();
+    }
+
+    private String getActionString() {
+
+        StringBuilder stringBuilder = new StringBuilder("Preflop: ");
+        String foldString = "";
+        int numberOfFolds = 0;
+        for (Player player : getPlayers()) {
+            if (player.getPosition() == heroPosition) {
+                break;
+            }
+            if (player.getAction() == FOLD) {
+                if (numberOfFolds == 0) {
+                    numberOfFolds = 1;
+                    foldString = App.getContext().getString(R.string.folds, getTextPosition(player.getPosition()));
+                }
+                else {
+                    numberOfFolds += 1;
+                    foldString = App.getContext().getString(R.string.multi_fold, numberOfFolds);
+                }
+                continue;
+            }
+            else {
+                if (foldString.length() > 0) {
+                    stringBuilder.append(foldString)
+                                .append(", ");
+                    foldString = "";
+                    numberOfFolds = 0;
+                }
+            }
+            if (player.getAction() == CALL) {
+                stringBuilder.append(App.getContext().getString(R.string.calls, getTextPosition(player.getPosition()), player.getBet()));
+            }
+            if (player.getAction() == RAISE) {
+                stringBuilder.append(App.getContext().getString(R.string.raises, getTextPosition(player.getPosition()), player.getBet()));
+            }
+            if (player.isAllIn()) {
+                stringBuilder.append(" ")
+                            .append(App.getContext().getString(R.string.allin));
+            }
+            stringBuilder.append(", ");
+        }
+        if (foldString.length() > 0) {
+            stringBuilder.append(foldString);
+        }
+        String bettingSequence = stringBuilder.toString();
+        if ((heroPosition > 1) && (foldString.length() == 0)) {
+            bettingSequence = bettingSequence.trim().substring(0, bettingSequence.length() - 2);
+        }
+        return bettingSequence;
     }
 }

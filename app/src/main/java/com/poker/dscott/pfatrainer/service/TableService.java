@@ -7,6 +7,7 @@ import com.poker.dscott.pfatrainer.entity.Table;
  */
 public interface TableService {
 
-    public Table initializeTable();
-    public Table initializeTable(int numberOfPlayers);
+    public void initializeTable(Table table);
+    public void initializeTable(Table table, int numberOfPlayers);
+    public void generateAction(Table table);
 }

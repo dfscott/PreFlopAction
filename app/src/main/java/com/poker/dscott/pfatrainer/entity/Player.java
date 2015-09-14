@@ -5,9 +5,16 @@ package com.poker.dscott.pfatrainer.entity;
  */
 public class Player {
 
+    public enum Action {
+        FOLD,
+        CALL,
+        RAISE
+    }
     private int chipCount;
     private Hand hand;
     private int position;
+    private Action action;
+    private int bet;
 
     public int getChipCount() {
         return chipCount;
@@ -31,5 +38,29 @@ public class Player {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public int getBet() {
+        return bet;
+    }
+
+    public void setBet(int bet) {
+        this.bet = bet;
+    }
+
+    public boolean isAllIn() {
+        boolean isAllin = false;
+        if (getBet() > 0) {
+            isAllin = getBet() == getChipCount();
+        }
+        return isAllin;
     }
 }
