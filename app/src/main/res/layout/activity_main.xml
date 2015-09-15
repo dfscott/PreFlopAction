@@ -9,7 +9,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_label"
+        android:text="@string/new_hand_button_label"
         android:id="@+id/btnNewHand"
         android:typeface="normal"
         android:onClick="createNewHand"
@@ -23,14 +23,15 @@
         android:layout_height="wrap_content"
         android:text="@string/initial_text"
         android:id="@+id/textView"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
     <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fold"
+        android:text="@string/fold_button_label"
         android:id="@+id/btnFold"
         android:onClick="foldClicked"
         android:layout_alignParentBottom="true"
@@ -41,21 +42,34 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Call"
+        android:text="@string/call_button_label"
         android:id="@+id/btnCall"
         android:onClick="callClicked"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_toRightOf="@+id/btnNewHand"
+        android:layout_toEndOf="@+id/btnNewHand" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Raise"
+        android:text="@string/allin_button_label"
+        android:id="@+id/btnAllIn"
+        android:layout_alignBottom="@+id/btnCall"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="allInClicked" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/raise_button_label"
         android:id="@+id/btnRaise"
         android:onClick="raiseClicked"
-        android:layout_alignTop="@+id/btnCall"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
+
 
 </RelativeLayout>

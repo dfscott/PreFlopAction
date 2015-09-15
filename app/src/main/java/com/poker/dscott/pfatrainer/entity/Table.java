@@ -9,9 +9,8 @@ public abstract class Table {
 
     public final static int minimumPlayerChips = 100;
 
-    private int numberOfPlayers;
-    private int BB;
-    private int SB;
+    private int remainingPlayers;
+    private Blinds blinds;
     private Hand heroHand;
     private int heroPosition;
     private List<Player> players;
@@ -20,28 +19,34 @@ public abstract class Table {
 
     public abstract int getTotalChips();
 
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
+    public abstract int getBubblePlayerCount();
+
+    public abstract int getMaxPlayers();
+
+    public abstract int getMinPlayers();
+
+    public int getRemainingPlayers() {
+        return remainingPlayers;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
+    public void setRemainingPlayers(int remainingPlayers) {
+        this.remainingPlayers = remainingPlayers;
     }
 
     public int getBB() {
-        return BB;
-    }
-
-    public void setBB(int BB) {
-        this.BB = BB;
+        return blinds.getBigBlindAmount();
     }
 
     public int getSB() {
-        return SB;
+        return blinds.getSmallBlindAmount();
     }
 
-    public void setSB(int SB) {
-        this.SB = SB;
+    public Blinds getBlinds() {
+        return blinds;
+    }
+
+    public void setBlinds(Blinds blinds) {
+        this.blinds = blinds;
     }
 
     public List<Player> getPlayers() {

@@ -2,6 +2,7 @@ package com.poker.dscott.pfatrainer.service;
 
 import com.poker.dscott.pfatrainer.App;
 import com.poker.dscott.pfatrainer.R;
+import com.poker.dscott.pfatrainer.entity.Blinds;
 import com.poker.dscott.pfatrainer.entity.Hand;
 import com.poker.dscott.pfatrainer.entity.Player;
 import com.poker.dscott.pfatrainer.entity.Table;
@@ -25,14 +26,14 @@ import static com.poker.dscott.pfatrainer.utils.FormattingUtils.STRONG_END;
 public class TableServiceImpl implements TableService {
 
     private static final String LINE_BREAK = "<BR>";
-
+    
     Random random = new Random(System.currentTimeMillis());
     private BlindService blindService;
     private HandService handService;
 
     public BlindService getBlindService() {
         if (blindService == null) {
-            blindService = new BlindServiceImpl();
+            blindService = new WPNBlindServiceImpl();
         }
         return blindService;
     }
@@ -46,24 +47,23 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public void initializeTable(Table table) {
-        int numberOfPlayers = random.nextInt(8) + 2;
-        initializeTable(table, numberOfPlayers);
+        int remainingPlayers = random.nextInt(table.getMaxPlayers() - table.getMinPlayers()) 
+                                            + table.getMinPlayers();
+        initializeTable(table, remainingPlayers);
     }
 
     @Override
-    public void initializeTable(Table table, int numberOfPlayers) {
+    public void initializeTable(Table table, int remainingPlayers) {
 
-        table.setNumberOfPlayers(numberOfPlayers);
+        table.setRemainingPlayers(remainingPlayers);
         BlindService blindService = getBlindService();
-        int bigBlind = blindService.randomizeBigBlind();
 
-        table.setBB(bigBlind);
-        table.setSB(bigBlind / 2);
+        table.setBlinds(blindService.randomizeBlinds());
 
         Hand hand = getHandService().generateRandomHand();
         table.setHeroHand(hand);
         
-        table.setHeroPosition(random.nextInt(numberOfPlayers - 1) + 1);
+        table.setHeroPosition(random.nextInt(remainingPlayers - 1) + 1);
 
         loadPlayerStacks(table);
 
@@ -71,7 +71,7 @@ public class TableServiceImpl implements TableService {
 
     private void loadPlayerStacks(Table table) {
 
-        int numberOfPlayers = table.getNumberOfPlayers();
+        int numberOfPlayers = table.getRemainingPlayers();
         int remainingChips = table.getTotalChips();
         List<Integer> chipList = new ArrayList<>();
 
@@ -180,7 +180,16 @@ public class TableServiceImpl implements TableService {
         DecimalFormat bbFormat = new DecimalFormat("#,###,###.#");
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(App.getContext().getString(R.string.num_players_display, table.getSB(), table.getBB(), table.getNumberOfPlayers()))
+
+        Blinds blinds = table.getBlinds();
+        stringBuilder.append(App.getContext().getString(R.string.blinds_display,
+                                                        blinds.getLevel(),
+                                                        blinds.getSmallBlindAmount(),
+                                                        blinds.getBigBlindAmount()));
+        if (blinds.getAnte() > 0) {
+            stringBuilder.append(App.getContext().getString(R.string.ante_display, blinds.getAnte()));
+        }
+        stringBuilder.append(App.getContext().getString(R.string.num_players_display, table.getRemainingPlayers()))
                 .append(LINE_BREAK)
                 .append(LINE_BREAK);
         int heroPosition = table.getHeroPosition();
@@ -198,7 +207,7 @@ public class TableServiceImpl implements TableService {
                         .append(" (");
                 isLineStrong = true;
             }
-            stringBuilder.append(getTextPosition(playerPosition, table.getNumberOfPlayers()));
+            stringBuilder.append(getTextPosition(playerPosition, table.getRemainingPlayers()));
             if (playerPosition == heroPosition) {
                 stringBuilder.append(")");
             }
@@ -219,7 +228,7 @@ public class TableServiceImpl implements TableService {
         }
         stringBuilder.append(LINE_BREAK)
                 .append(App.getContext().getString(R.string.hero_display,
-                        getTextPosition(heroPosition, table.getNumberOfPlayers()),
+                        getTextPosition(heroPosition, table.getRemainingPlayers()),
                         table.getHeroHand().getHTMLUniHandDescription()))
                 .append(LINE_BREAK);
         return stringBuilder.toString();
@@ -228,7 +237,7 @@ public class TableServiceImpl implements TableService {
     @Override
     public String generateActionMessage(Table table) {
 
-        int numberOfPlayers = table.getNumberOfPlayers();
+        int numberOfPlayers = table.getRemainingPlayers();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(FormattingUtils.strongText(App.getContext().getString(R.string.Preflop)));
         String foldString = "";

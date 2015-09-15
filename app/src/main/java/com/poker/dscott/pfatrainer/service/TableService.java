@@ -7,6 +7,8 @@ import com.poker.dscott.pfatrainer.entity.Table;
  */
 public interface TableService {
 
+    public static final int minPlayers = 2;
+
     public void initializeTable(Table table);
     public void initializeTable(Table table, int numberOfPlayers);
     public void generateAction(Table table);

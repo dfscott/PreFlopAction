@@ -1,5 +1,7 @@
 package com.poker.dscott.pfatrainer.service;
 
+import com.poker.dscott.pfatrainer.entity.Blinds;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,6 @@ import java.util.List;
  */
 public interface BlindService {
 
-    public List<Integer> getBigBlindLevels();
-    public int randomizeBigBlind();
+    public List<Blinds> getBlindLevels();
+    public Blinds randomizeBlinds();
 }

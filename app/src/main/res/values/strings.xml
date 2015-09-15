@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Pre-flop Action Trainer</string>
     <string name="dialog_title">Action Result</string>
+    <string name="action_settings">Settings</string>
+
     <string name="fold_clicked_message">You clicked Fold!</string>
 
     <string name="OK">OK</string>
@@ -12,11 +14,10 @@
     <string name="multi_fold" formatted="false">%d folds</string>
     <string name="Preflop">Preflop:</string>
     
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="button_label">New Hand</string>
     <string name="initial_text">Click button to load new hand</string>
-    <string name="num_players_display" formatted="false">%1d/%2d No Limit Hold\'em Tournament, %3d Players</string>
+    <string name="blinds_display" formatted="false">Level %1d (%2d/%3d blinds</string>
+    <string name="ante_display" formatted="false">, %d ante</string>
+    <string name="num_players_display" formatted="false">) No Limit Hold\'em Tournament, %d Players</string>
     <string name="hero_display" formatted="false">Hero is %s with %s</string>
 
     <string name="BB">BB</string>
@@ -32,5 +33,11 @@
     <string name="MP3">MP3</string>
     <string name="HERO">Hero</string>
     <string name="bb">bb</string>
+
+    <string name="new_hand_button_label">New Hand</string>
+    <string name="allin_button_label">All-in</string>
+    <string name="call_button_label">Call</string>
+    <string name="raise_button_label">Raise</string>
+    <string name="fold_button_label">Fold</string>
 
 </resources>

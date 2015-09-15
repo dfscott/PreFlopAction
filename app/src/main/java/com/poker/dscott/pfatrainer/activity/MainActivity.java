@@ -93,4 +93,10 @@ public class MainActivity extends AppCompatActivity {
     public void raiseClicked(View view) {
 
     }
+
+    public void allInClicked(View view) {
+
+    }
+
+
 }

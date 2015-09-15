@@ -1,6 +1,7 @@
 package com.poker.dscott.pfatrainer.service;
 
-import junit.framework.Assert;
+import com.poker.dscott.pfatrainer.entity.Blinds;
+
 import junit.framework.TestCase;
 
 import java.util.List;
@@ -12,11 +13,16 @@ public class TestBlindService extends TestCase {
 
     public void testRandomizeBigBlind() throws Exception {
 
-        BlindService blindService = new BlindServiceImpl();
-        List<Integer> blindLevels = blindService.getBigBlindLevels();
-        Assert.assertTrue(blindLevels.size() > 0);
+        BlindService blindService = new WPNBlindServiceImpl();
+        List<Blinds> blindLevels = blindService.getBlindLevels();
+        assertTrue(blindLevels.size() > 0);
 
-        int bigBlind = blindService.randomizeBigBlind();
-        Assert.assertTrue(bigBlind > 0);
+        Blinds blinds = blindService.randomizeBlinds();
+        assertNotNull(blinds);
+        assertTrue(blinds.getBigBlindAmount() > 0);
+        assertTrue(blinds.getSmallBlindAmount() > 0);
+        assertTrue(blinds.getLevel() > 0);
+        assertTrue(blinds.getLevel() <= blindLevels.size());
+
     }
 }

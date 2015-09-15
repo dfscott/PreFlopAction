@@ -18,9 +18,9 @@ public class TestTableService extends TestCase {
         TableService tableService = new TableServiceImpl();
         Table table = new FullTable();
         tableService.initializeTable(table, 7);
-        Assert.assertTrue(table.getNumberOfPlayers() == 7);
+        Assert.assertTrue(table.getRemainingPlayers() == 7);
         tableService.generateAction(table);
-        String tableStatus = table.getTableStatus();
+        String tableStatus = tableService.generateTableStatusMessage(table);
         Assert.assertTrue(tableStatus.length() > 0);
         Log.d("MainActivity","table status is : " + tableStatus);
     }

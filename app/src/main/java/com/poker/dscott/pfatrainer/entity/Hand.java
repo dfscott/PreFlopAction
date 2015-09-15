@@ -36,4 +36,50 @@ public class Hand {
     public String getHTMLUniHandDescription() {
         return card1.getHTMLUnicodeCardString() + card2.getHTMLUnicodeCardString();
     }
+
+    public boolean isPair() {
+        return (card1.getCardRank().equals(card2.getCardRank()));
+    }
+
+    public boolean isSuited() {
+        return (card1.getCardSuit().equals(card2.getCardSuit()));
+    }
+
+    public boolean isConnector() {
+        int diff = Math.abs(card1.getCardRank().getValue() - card2.getCardRank().getValue());
+        if (diff == 1) {
+            return true;
+        }
+        // check for wheel
+        if (containsCard(Card.CardRank.ACE) && containsCard(Card.CardRank.TWO)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPremiumPair() {
+        return (isPair() && card1.getCardRank().getValue() > Card.CardRank.JACK.getValue());
+    }
+
+    public boolean isBigSlick() {
+
+        if (containsCard(Card.CardRank.ACE) && containsCard(Card.CardRank.KING)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isSuitedAce() {
+        return (isSuited() && containsCard(Card.CardRank.ACE));
+    }
+
+    public boolean isBroadway() {
+        int minBroadwayValue = Card.CardRank.TEN.getValue();
+        return ((card1.getCardRank().getValue() >= minBroadwayValue) &&
+                (card2.getCardRank().getValue() >= minBroadwayValue));
+    }
+
+    public boolean containsCard(Card.CardRank cardRank) {
+        return ((card1.getCardRank() == cardRank) || (card2.getCardRank() == cardRank));
+    }
 }
