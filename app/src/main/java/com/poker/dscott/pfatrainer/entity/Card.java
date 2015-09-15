@@ -1,9 +1,16 @@
 package com.poker.dscott.pfatrainer.entity;
 
+import com.poker.dscott.pfatrainer.utils.FormattingUtils;
+
 /**
  * Created by dscott on 9/13/2015.
  */
 public class Card implements Comparable {
+
+    public final static String SPADE_SYMBOL_UNI = "\u2660";
+    public final static String CLUB_SYMBOL_UNI = "\u2663";
+    public final static String HEART_SYMBOL_UNI = FormattingUtils.RED_TEXT + "\u2665" + FormattingUtils.END_COLORED_TEXT;
+    public final static String DIAMOND_SYMBOL_UNI = FormattingUtils.RED_TEXT + "\u2666" + FormattingUtils.END_COLORED_TEXT;
 
     public enum CardRank {
         ACE('A',14),
@@ -122,9 +129,29 @@ public class Card implements Comparable {
 
 
     public String getCardString() {
-        return new StringBuilder()
-                .append(getCardRank().getRank())
-                .append(getCardSuit().getSuitAbbrev()).toString();
+        return getCardRank().getRank() + String.valueOf(getCardSuit().getSuitAbbrev());
+    }
+
+    public String getHTMLUnicodeCardString() {
+        String cardString = String.valueOf(getCardRank().getRank());
+        switch (getCardSuit()) {
+            case SPADES:
+                cardString += SPADE_SYMBOL_UNI;
+                break;
+            case HEART:
+                cardString += HEART_SYMBOL_UNI;
+                break;
+            case CLUBS:
+                cardString += CLUB_SYMBOL_UNI;
+                break;
+            case DIAMONDS:
+                cardString += DIAMOND_SYMBOL_UNI;
+                break;
+            default:
+                cardString += "??";
+        }
+        return cardString;
+
     }
 
     @Override

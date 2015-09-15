@@ -30,10 +30,10 @@ public class Hand {
     }
 
     public String getHandDescription() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(card1.getCardString())
-                    .append(",")
-                    .append(card2.getCardString());
-        return stringBuilder.toString();
+        return card1.getCardString() + ", " + card2.getCardString();
+    }
+
+    public String getHTMLUniHandDescription() {
+        return card1.getHTMLUnicodeCardString() + card2.getHTMLUnicodeCardString();
     }
 }

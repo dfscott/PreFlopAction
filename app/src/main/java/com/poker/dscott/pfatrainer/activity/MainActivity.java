@@ -2,8 +2,10 @@ package com.poker.dscott.pfatrainer.activity;
 
 import android.app.DialogFragment;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -67,9 +69,13 @@ public class MainActivity extends AppCompatActivity {
         getTableService().initializeTable(table);
         TextView textView = (TextView) findViewById(R.id.textView);
         getTableService().generateAction(table);
-        String tableStatus = table.getTableStatus();
-        textView.setText(tableStatus);
+        String tableStatus = tableService.generateTableStatusMessage(table);
+        tableStatus += tableService.generateActionMessage(table);
 
+        Typeface font= Typeface.createFromAsset(getAssets(), "DejaVuSans.ttf");
+        textView.setTypeface(font);
+
+        textView.setText(Html.fromHtml(tableStatus));
     }
 
     public void foldClicked(View view) {

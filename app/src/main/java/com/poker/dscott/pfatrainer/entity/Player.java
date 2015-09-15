@@ -8,7 +8,9 @@ public class Player {
     public enum Action {
         FOLD,
         CALL,
-        RAISE
+        RAISE,
+        NO_ACTION
+
     }
     private int chipCount;
     private Hand hand;
@@ -16,6 +18,9 @@ public class Player {
     private Action action;
     private int bet;
 
+    public Player() {
+        action = Action.NO_ACTION;
+    }
     public int getChipCount() {
         return chipCount;
     }
