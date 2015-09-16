@@ -14,6 +14,10 @@ public abstract class Table {
     private Hand heroHand;
     private int heroPosition;
     private List<Player> players;
+    private int numberOfLimpers;
+    private int numberOfRaisers;
+    private int amountToCall;
+    private boolean isOpponentAllIn;
 
     public abstract int getStartingStack();
 
@@ -71,5 +75,52 @@ public abstract class Table {
 
     public void setHeroPosition(int heroPosition) {
         this.heroPosition = heroPosition;
+    }
+
+    public int getNumberOfLimpers() {
+        return numberOfLimpers;
+    }
+
+    public void setNumberOfLimpers(int numberOfLimpers) {
+        this.numberOfLimpers = numberOfLimpers;
+    }
+
+    public int getNumberOfRaisers() {
+        return numberOfRaisers;
+    }
+
+    public void setNumberOfRaisers(int numberOfRaisers) {
+        this.numberOfRaisers = numberOfRaisers;
+    }
+
+    public int getAmountToCall() {
+        return amountToCall;
+    }
+
+    public void setAmountToCall(int amountToCall) {
+        this.amountToCall = amountToCall;
+    }
+
+    public boolean isOpponentAllIn() {
+        return isOpponentAllIn;
+    }
+
+    public void setOpponentAllIn(boolean opponentAllIn) {
+        this.isOpponentAllIn = opponentAllIn;
+    }
+
+    public int getShortStackAmount() {
+
+        int shortStack = getTotalChips();
+        for (Player player : getPlayers()) {
+            if (player.getChipCount() < shortStack) {
+                shortStack = player.getChipCount();
+            }
+        }
+        return shortStack;
+    }
+
+    public Player getHero() {
+        return getPlayers().get(getHeroPosition());
     }
 }

@@ -10,17 +10,18 @@ import java.util.Random;
  */
 public class HandServiceImpl implements HandService {
 
+    private Random random = new Random(System.currentTimeMillis());
+
     @Override
     public Hand generateRandomHand() {
 
-        Random random = new Random();
-        int cardRank = random.nextInt(12) + 2;
-        int cardSuit = random.nextInt(3) + 1;
+        int cardRank = random.nextInt(13) + 2;
+        int cardSuit = random.nextInt(4) + 1;
         Card card1 = new Card(cardRank, cardSuit);
         Card card2;
         do {
-            cardRank = random.nextInt(12) + 2;
-            cardSuit = random.nextInt(3) + 1;
+            cardRank = random.nextInt(13) + 2;
+            cardSuit = random.nextInt(4) + 1;
             card2 = new Card(cardRank, cardSuit);
         } while (card1.equals(card2));
 

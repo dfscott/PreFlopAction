@@ -10,10 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.poker.dscott.pfatrainer.App;
 import com.poker.dscott.pfatrainer.R;
+import com.poker.dscott.pfatrainer.entity.AleoMagusStrategy;
 import com.poker.dscott.pfatrainer.entity.FullTable;
+import com.poker.dscott.pfatrainer.entity.Strategy;
 import com.poker.dscott.pfatrainer.entity.Table;
 import com.poker.dscott.pfatrainer.service.TableService;
 import com.poker.dscott.pfatrainer.service.TableServiceImpl;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static Context context;
     private Table table;
     private TableService tableService;
+    private Strategy strategy;
 
     public TableService getTableService() {
         if (tableService == null) {
@@ -33,6 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context getContext() {
         return context;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
     }
 
     @Override
@@ -76,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
         textView.setTypeface(font);
 
         textView.setText(Html.fromHtml(tableStatus));
+
+        // move this to a settable area
+        Strategy strategy = new AleoMagusStrategy(table);
+        setStrategy(strategy);
+
     }
 
     public void foldClicked(View view) {
@@ -88,6 +105,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void callClicked(View view) {
 
+        Strategy strategy = getStrategy();
+
+
+        Context context = getApplicationContext();
+        CharSequence text = "You should " + strategy.correctAction();
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     public void raiseClicked(View view) {

@@ -69,6 +69,13 @@ public class Hand {
         return false;
     }
 
+    public boolean isChickSlick() {
+        if (containsCard(Card.CardRank.ACE) && containsCard(Card.CardRank.QUEEN)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isSuitedAce() {
         return (isSuited() && containsCard(Card.CardRank.ACE));
     }

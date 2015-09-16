@@ -32,7 +32,7 @@ public class WPNBlindServiceImpl implements BlindService {
     public Blinds randomizeBlinds() {
         int range = blindList.size();
         Random random = new Random();
-        int index = random.nextInt(range-1);
+        int index = random.nextInt(range);
         return blindList.get(index);
     }
 

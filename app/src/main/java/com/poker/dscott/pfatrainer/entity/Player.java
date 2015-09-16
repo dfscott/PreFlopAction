@@ -9,6 +9,7 @@ public class Player {
         FOLD,
         CALL,
         RAISE,
+        ALLIN,
         NO_ACTION
 
     }

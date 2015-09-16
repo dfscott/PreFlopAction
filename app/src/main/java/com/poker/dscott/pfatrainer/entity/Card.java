@@ -72,7 +72,7 @@ public class Card implements Comparable {
 
     public Card(int rankValue, int suitIndex) {
         this.cardRank = getCardRank(rankValue);
-        this.cardSuit = CardSuit.values()[suitIndex];
+        this.cardSuit = CardSuit.values()[suitIndex - 1];
     }
 
     public CardRank getCardRank() {

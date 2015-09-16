@@ -47,7 +47,7 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public void initializeTable(Table table) {
-        int remainingPlayers = random.nextInt(table.getMaxPlayers() - table.getMinPlayers()) 
+        int remainingPlayers = random.nextInt(table.getMaxPlayers() + 1 - table.getMinPlayers())
                                             + table.getMinPlayers();
         initializeTable(table, remainingPlayers);
     }
@@ -63,7 +63,7 @@ public class TableServiceImpl implements TableService {
         Hand hand = getHandService().generateRandomHand();
         table.setHeroHand(hand);
         
-        table.setHeroPosition(random.nextInt(remainingPlayers - 1) + 1);
+        table.setHeroPosition(random.nextInt(remainingPlayers) + 1);
 
         loadPlayerStacks(table);
 
@@ -116,8 +116,11 @@ public class TableServiceImpl implements TableService {
         int playerBet = 0;
         int pot = currentBet + table.getSB();
         boolean isTableOpened = false;
+        table.setOpponentAllIn(false);
+
         for (Player player : table.getPlayers()) {
             if (player.getPosition() == table.getHeroPosition()) {
+                table.setAmountToCall(currentBet);
                 break;
             }
             // default bet chance for anyone is 20%
@@ -162,6 +165,7 @@ public class TableServiceImpl implements TableService {
                 }
                 if (playerBet > player.getChipCount()) {
                     playerBet = player.getChipCount();
+                    table.setOpponentAllIn(true);
                 }
                 player.setBet(playerBet);
                 if (playerBet > currentBet) {

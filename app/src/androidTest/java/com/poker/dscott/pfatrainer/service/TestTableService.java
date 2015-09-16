@@ -22,7 +22,7 @@ public class TestTableService extends TestCase {
         tableService.generateAction(table);
         String tableStatus = tableService.generateTableStatusMessage(table);
         Assert.assertTrue(tableStatus.length() > 0);
-        Log.d("MainActivity","table status is : " + tableStatus);
+        Log.d("TestTableService","table status is : " + tableStatus);
     }
 
 
