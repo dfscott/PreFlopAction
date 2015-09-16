@@ -6,12 +6,22 @@ package com.poker.dscott.pfatrainer.entity;
 public class Player {
 
     public enum Action {
-        FOLD,
-        CALL,
-        RAISE,
-        ALLIN,
-        NO_ACTION
+        FOLD("Fold"),
+        CALL("Call"),
+        RAISE("Raise"),
+        ALLIN("Go All-in"),
+        NO_ACTION("");
 
+        private String text;
+
+        Action(String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
     }
     private int chipCount;
     private Hand hand;

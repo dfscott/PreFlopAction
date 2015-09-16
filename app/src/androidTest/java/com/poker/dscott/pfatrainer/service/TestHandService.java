@@ -43,7 +43,7 @@ public class TestHandService extends TestCase {
             Log.d("TestHandService","\n premium pair? : " + hand.isPremiumPair() + "\n");
             Log.d("TestHandService","\n connector? : " + hand.isConnector() + "\n");
             Log.d("TestHandService","\n big slick? : " + hand.isBigSlick() + "\n");
-            Log.d("TestHandService","\n chick slick? : " + hand.isChickSlick() + "\n");
+            Log.d("TestHandService","\n chick slick? : " + hand.isLittleSlick() + "\n");
             Log.d("TestHandService","\n broadway? : " + hand.isBroadway() + "\n");
             Log.d("TestHandService","\n suited ace? : " + hand.isSuitedAce() + "\n\n");
 

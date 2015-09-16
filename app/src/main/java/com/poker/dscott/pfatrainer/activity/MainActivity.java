@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Context context = getApplicationContext();
-        CharSequence text = "You should " + strategy.correctAction();
+        CharSequence text = "You should " + strategy.correctAction().toString();
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);

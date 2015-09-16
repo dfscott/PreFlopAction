@@ -69,7 +69,7 @@ public class Hand {
         return false;
     }
 
-    public boolean isChickSlick() {
+    public boolean isLittleSlick() {
         if (containsCard(Card.CardRank.ACE) && containsCard(Card.CardRank.QUEEN)) {
             return true;
         }
@@ -84,6 +84,76 @@ public class Hand {
         int minBroadwayValue = Card.CardRank.TEN.getValue();
         return ((card1.getCardRank().getValue() >= minBroadwayValue) &&
                 (card2.getCardRank().getValue() >= minBroadwayValue));
+    }
+
+    public boolean isAjax() {
+        if (containsCard(Card.CardRank.ACE) && containsCard(Card.CardRank.JACK)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isBookends() {
+        if (containsCard(Card.CardRank.ACE) && containsCard(Card.CardRank.TEN)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isRoyalCouple() {
+        if (containsCard(Card.CardRank.KING) && containsCard(Card.CardRank.QUEEN)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isKojack() {
+        if (containsCard(Card.CardRank.KING) && containsCard(Card.CardRank.JACK)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isKatie() {
+        if (containsCard(Card.CardRank.KING) && containsCard(Card.CardRank.TEN)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isQuack() {
+        if (containsCard(Card.CardRank.QUEEN) && containsCard(Card.CardRank.JACK)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isCutie() {
+        if (containsCard(Card.CardRank.QUEEN) && containsCard(Card.CardRank.TEN)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isCountdown() {
+        if (containsCard(Card.CardRank.TEN) && containsCard(Card.CardRank.NINE)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isOldsmobile() {
+        if (containsCard(Card.CardRank.NINE) && containsCard(Card.CardRank.EIGHT)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isRPM() {
+        if (containsCard(Card.CardRank.EIGHT) && containsCard(Card.CardRank.SEVEN)) {
+            return true;
+        }
+        return false;
     }
 
     public boolean containsCard(Card.CardRank cardRank) {
