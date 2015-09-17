@@ -6,6 +6,7 @@ package com.poker.dscott.pfatrainer.entity;
 public class Player {
 
     public enum Action {
+        CHECK("Check"),
         FOLD("Fold"),
         CALL("Call"),
         RAISE("Raise"),

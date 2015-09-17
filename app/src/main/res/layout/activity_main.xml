@@ -67,6 +67,15 @@
             android:id="@+id/btnRaise"
             android:onClick="raiseClicked" />
 
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_button_label"
+            android:id="@+id/btnShow"
+            android:onClick="showAnswer"
+            android:singleLine="true" />
+
 
     </LinearLayout>
 

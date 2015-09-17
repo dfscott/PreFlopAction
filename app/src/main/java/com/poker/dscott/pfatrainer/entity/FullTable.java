@@ -9,7 +9,7 @@ public class FullTable extends Table {
     private static final int TOTAL_CHIPS = 15000;
     private static final int BUBBLE_PLAYER_COUNT = 4;
     private static final int MAX_PLAYERS = 10;
-    private static final int MIN_PLAYERS = 2;
+    private static final int MIN_PLAYERS = 3;
 
     public int getStartingStack() {
         return STARTING_STACK;

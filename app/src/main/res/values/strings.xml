@@ -3,7 +3,14 @@
     <string name="dialog_title">Action Result</string>
     <string name="action_settings">Settings</string>
 
-    <string name="fold_clicked_message">You clicked Fold!</string>
+    <string name="fold_correct_message">Folding is correct!</string>
+    <string name="call_correct_message">Calling is correct!</string>
+    <string name="raise_correct_message">Raising is correct!</string>
+    <string name="allin_correct_message">Pushing all-in is correct!</string>
+    <string name="fold_incorrect_message">Folding is not the best option.</string>
+    <string name="call_incorrect_message">Calling is not the best option.</string>
+    <string name="raise_incorrect_message">Raising is not the best option.</string>
+    <string name="allin_incorrect_message">Pushing all-in is not the best option.</string>
 
     <string name="OK">OK</string>
 
@@ -39,5 +46,6 @@
     <string name="call_button_label">Call</string>
     <string name="raise_button_label">Raise</string>
     <string name="fold_button_label">Fold</string>
+    <string name="show_button_label">Show</string>
 
 </resources>

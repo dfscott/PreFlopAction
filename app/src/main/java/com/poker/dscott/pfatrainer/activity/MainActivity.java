@@ -1,6 +1,5 @@
 package com.poker.dscott.pfatrainer.activity;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import com.poker.dscott.pfatrainer.App;
 import com.poker.dscott.pfatrainer.R;
 import com.poker.dscott.pfatrainer.entity.AleoMagusStrategy;
 import com.poker.dscott.pfatrainer.entity.FullTable;
+import com.poker.dscott.pfatrainer.entity.Player;
 import com.poker.dscott.pfatrainer.entity.Strategy;
 import com.poker.dscott.pfatrainer.entity.Table;
 import com.poker.dscott.pfatrainer.service.TableService;
@@ -96,32 +96,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void foldClicked(View view) {
-
-        String msg = App.getContext().getString(R.string.fold_clicked_message);
-        DialogFragment newFragment = ActionResultDialog.newInstance(msg);
-        newFragment.show(getFragmentManager(), "dialog");
-
+        Context context = App.getContext();
+        displayResult(Player.Action.FOLD, context.getString(R.string.fold_correct_message),
+                context.getString(R.string.fold_incorrect_message));
     }
 
     public void callClicked(View view) {
-
-        Strategy strategy = getStrategy();
-
-
-        Context context = getApplicationContext();
-        CharSequence text = "You should " + strategy.correctAction().toString();
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        Context context = App.getContext();
+        displayResult(Player.Action.CALL, context.getString(R.string.call_correct_message),
+                context.getString(R.string.call_incorrect_message));
     }
 
     public void raiseClicked(View view) {
-
+        Context context = App.getContext();
+        displayResult(Player.Action.RAISE, context.getString(R.string.raise_correct_message),
+                context.getString(R.string.raise_incorrect_message));
     }
 
     public void allInClicked(View view) {
+        Context context = App.getContext();
+        displayResult(Player.Action.ALLIN, context.getString(R.string.allin_correct_message),
+                context.getString(R.string.allin_incorrect_message));
+    }
 
+    public void displayResult(Player.Action selectedAction, String correctMessage, String incorrectMessage) {
+
+        Player.Action correctAction = getStrategy().correctAction();
+        if (correctAction == selectedAction) {
+            showToast(correctMessage);
+        }
+        else {
+            if (correctAction == Player.Action.CHECK) {
+                // a 0-amount call from the BB is a check
+                if (table.isHeroBB() && (selectedAction == Player.Action.CALL) && (table.getAmountToCall() == 0)) {
+                    showToast(correctMessage);
+                }
+            }
+            showToast(incorrectMessage);
+        }
+    }
+
+    public void showAnswer(View view) {
+
+        Strategy strategy = getStrategy();
+        String text = "You should " + strategy.correctAction().toString();
+        showToast(text);
+    }
+
+    private void showToast(String msg) {
+        Context context = App.getContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, msg, duration);
+        toast.show();
     }
 
 

@@ -114,7 +114,9 @@ public class TableServiceImpl implements TableService {
 
         int currentBet = table.getBB();
         int playerBet = 0;
-        int pot = currentBet + table.getSB();
+        int raisers = 0;
+        int callers = 0;
+        int pot = currentBet + table.getSB() + table.getAnte();
         boolean isTableOpened = false;
         table.setOpponentAllIn(false);
 
@@ -143,9 +145,11 @@ public class TableServiceImpl implements TableService {
                 if (Math.random() > .7) {
                     player.setAction(CALL);
                     playerBet = currentBet;
+                    callers ++;
                 }
                 else {
                     player.setAction(RAISE);
+                    raisers++;
                     if (!isTableOpened) {
                         if (Math.random() > .2) {
                             playerBet = table.getBB() * 3;
@@ -175,6 +179,8 @@ public class TableServiceImpl implements TableService {
                 pot += currentBet;
             }
         }
+        table.setNumberOfRaisers(raisers);
+        table.setNumberOfCallers(callers);
     }
 
     @Override

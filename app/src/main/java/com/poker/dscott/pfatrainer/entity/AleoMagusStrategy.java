@@ -43,68 +43,88 @@ public class AleoMagusStrategy extends Strategy {
 
     private void determineAction() {
 
+        // todo -dfs- temporarily remove recheck for debugging
+/*
         if (isActionDetermined) {
             return;
         }
+*/
 
         isActionDetermined = true;
 
-        // determine early, late, or bubble strategy
+        // default is fold for all but BB with no raisers, which is check
         Table table = getTable();
+        correctAction = Player.Action.FOLD;
+        if (table.isHeroBB() && table.getNumberOfRaisers() == 0) {
+            correctAction = Player.Action.CHECK;
+        }
+
+        // determine early, late, or bubble strategy
         if (table.getBubblePlayerCount() == table.getRemainingPlayers()) {
             bubbleStrategy();
         }
-        int round = getTable().getBlinds().getLevel();
-        if (round < 4) {
-            earlyStrategy();
-        }
         else {
-            lateStrategy();
+            int round = table.getBlinds().getLevel();
+            if (round < 4) {
+                earlyStrategy();
+            } else {
+                lateStrategy();
+            }
         }
 
-        // todo - figure out actual strategy (push, call, raise) based on stack-size
+        if ((correctAction == Player.Action.RAISE) ||
+                (correctAction == Player.Action.CALL)) {
+            if (table.getHero().getChipCount() < (7 * table.getBB())) {
+                correctAction = Player.Action.ALLIN;
+            }
+        }
+
     }
 
     private void bubbleStrategy() {
 
-        correctAction = Player.Action.FOLD;
-
         Hand hand = getPlayerHand();
-        if (hand.isPremiumPair() || hand.isBigSlick()) {
+
+        boolean isBigSlick = hand.isBigSlick();
+        if (hand.isPremiumPair() || isBigSlick) {
             correctAction = Player.Action.RAISE;
             return;
         }
 
         Table table = getTable();
         if (table.getNumberOfRaisers() == 0 &&
-                hand.isBigSlick()) {
+                isBigSlick) {
             correctAction = Player.Action.RAISE;
             return;
         }
 
         int shortStackAmount = table.getShortStackAmount();
+        int heroStack = table.getHero().getChipCount();
+        int amountToCall = table.getAmountToCall();
+        boolean isOpponentAllIn = table.isOpponentAllIn();
 
-        if (table.isOpponentAllIn() &&
-            table.getAmountToCall() == table.getShortStackAmount()) {
+        if (isOpponentAllIn &&
+            amountToCall == shortStackAmount) {
             // the short stack is all in - we can loosen our call
             if (hand.isBroadway() && isMediumPair(hand)) {
                 correctAction = Player.Action.CALL;
+                return;
             }
         }
 
-        Player hero = table.getHero();
-        if (!table.isOpponentAllIn() &&
+        if (!isOpponentAllIn &&
             (table.getNumberOfRaisers() == 1) &&
-                (table.getAmountToCall()*3) < hero.getChipCount()) {
+                (amountToCall*3) < heroStack) {
             if (hand.isLittleSlick() ||
                 (hand.isPair()
                         && (hand.containsCard(Card.CardRank.JACK))
                         || (hand.containsCard(Card.CardRank.TEN)))) {
                 correctAction = Player.Action.CALL;
+                return;
             }
         }
 
-        if (hero.getChipCount() == table.getShortStackAmount()) {
+        if (heroStack == shortStackAmount) {
             // A7+ is required to push -- that's a card value of 21;
             if (hand.isPair() ||
                 hand.isSuitedAce() ||
@@ -116,8 +136,6 @@ public class AleoMagusStrategy extends Strategy {
     }
 
     private void earlyStrategy() {
-
-        correctAction = Player.Action.FOLD;
 
         Hand hand = getPlayerHand();
         if (hand.isPremiumPair()) {
@@ -132,9 +150,12 @@ public class AleoMagusStrategy extends Strategy {
             correctAction = Player.Action.RAISE;
             return;
         }
-        int position = table.getHeroPosition();
-        boolean latePosition =(position > table.getRemainingPlayers() - 4);
+
+        boolean latePosition = table.isHeroLatePosition();
         if (!latePosition) {
+            if (hand.isPair() || hand.isLittleSlick()) {
+                correctAction = Player.Action.CALL;
+            }
             return;
         }
 
@@ -146,17 +167,10 @@ public class AleoMagusStrategy extends Strategy {
             }
             if (hand.isLittleSlick() ||
                 (isSuitedBroadway(hand))) {
-                if (table.getNumberOfLimpers() == 0) {
+                if (table.getNumberOfCallers() == 0) {
                     correctAction = Player.Action.RAISE;
-                    return;
                 }
                 else {
-                    correctAction = Player.Action.CALL;
-                    return;
-                }
-            }
-            if (!latePosition) {
-                if (hand.isPair() || hand.isLittleSlick()) {
                     correctAction = Player.Action.CALL;
                 }
             }
@@ -165,32 +179,33 @@ public class AleoMagusStrategy extends Strategy {
 
     private void lateStrategy() {
 
-        correctAction = Player.Action.FOLD;
-
         Hand hand = getPlayerHand();
         if (hand.isPremiumPair()) {
             correctAction = Player.Action.RAISE;
             return;
         }
         Table table = getTable();
-        if (table.getNumberOfRaisers() < 2 &&
+        int numberOfRaisers = table.getNumberOfRaisers();
+
+        if (numberOfRaisers < 2 &&
                 hand.isBigSlick()) {
             correctAction = Player.Action.RAISE;
             return;
         }
-        if (table.getNumberOfRaisers() == 0) {
+        if ((numberOfRaisers == 0) || (table.getAmountToCall() <= table.getBB())) {
             if (isMediumPair(hand)
                 || hand.isLittleSlick()
                 || isSuitedBroadway(hand)
                 || hand.isRoyalCouple()
                 || hand.isAjax()) {
                 correctAction = Player.Action.RAISE;
+                return;
             }
             if (table.getHero().getChipCount() > (table.getTotalChips() / table.getRemainingPlayers())) {
                 // good stack and no raisers gives more options
                 if (hand.isBroadway() ||
                         (hand.isSuited() && hand.isConnector() && (hand.containsCard(Card.CardRank.NINE) || hand.containsCard(Card.CardRank.EIGHT)))) {
-                    if (table.getNumberOfLimpers() > 1) {
+                    if (table.getNumberOfCallers() > 1) {
                         correctAction = Player.Action.CALL;
                     } else {
                         correctAction = Player.Action.RAISE;
